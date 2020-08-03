@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+    margin-top: 25px;
+
+}
+body{
+    background: rgba(1, 2, 18, 0.85); 
+}
+label, table{
+    color: whitesmoke;
+    margin-top: 25px;
+}
+
+th, td {
+    color: whitesmoke;
+}

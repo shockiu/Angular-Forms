@@ -1,0 +1,142 @@
+<form [formGroup]="formUser">
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Nombre</label>
+      <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu nombre" formControlName="name">
+      <div class="alert alert-danger"  *ngIf="name.invalid && (name.dirty || name.touched)">
+        <div *ngIf="name.errors.required">
+          ¡El nombre es requerido!
+        </div>
+        <div *ngIf="name.errors.pattern">
+          Tu nombre debe contener únicamente letras
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Apellido</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu apellido" formControlName="lastName">
+        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+            <div class="alert alert-danger" *ngIf="lastName.errors.required">
+                ¡El apellido es requerido!
+            </div>
+            <div class="alert alert-danger" *ngIf="lastName.errors.pattern">
+                Tu nombre debe contener únicamente letras
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Dirección de email</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu correo electronico" formControlName="email">
+        <div  *ngIf="email.invalid && (email.dirty || email.touched)">
+            <div class="alert alert-danger" *ngIf="email.errors.required">
+                ¡El email es requerdio!
+            </div>
+            <div class="alert alert-danger" *ngIf="email.errors.pattern">
+                Debes introducir un email v@lido
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Usuario de Github</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="User de Github" formControlName="GitHub">
+        <div  *ngIf="github.invalid && (github.dirty || github.touched)">
+            <div class="alert alert-danger" *ngIf="github.errors.required">
+                !Tu usuario de github es requerido¡
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-success right" [disabled]="formUser.invalid" (click)="addUser()">Mostrar en tabla</button>
+    <button class="btn btn-warning" (click)="cleanForm(1)">Limpiar formulario</button>
+</form>
+
+<!--
+  
+-->
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Github</th>
+        <th scope="col" class="col-center">Modificar/Eliminar</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let user of users">
+      <tr>
+        <th scope="row">{{user.id}}</th>
+        <td>{{user.name}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.GitHub}}</td>
+        <td class="icons">
+          <span class="material-icons" id="icon-left"  (click)="openModal(updateModal, user)">
+            create
+          </span>
+          <span class="material-icons" id="icon-right" (click)="deleteUser(user.id)">
+            delete_forever
+          </span>
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+<ng-template #updateModal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Modifiación de datos</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true" (click)="modalRef.hide()">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formUserUpdate">
+      <div class="form-group">
+        <label for="exampleFormControlInput1" class="letter-black">Nombre</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu nombre" formControlName="name">
+        <div class="alert alert-danger"  *ngIf="name.invalid && (name.dirty || name.touched)">
+          <div *ngIf="name.errors.required">
+            ¡El nombre es requerido!
+          </div>
+          <div *ngIf="name.errors.pattern">
+            Tu nombre debe contener únicamente letras
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+          <label for="exampleFormControlInput1" class="letter-black">Apellido</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu apellido" formControlName="lastName">
+          <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+              <div class="alert alert-danger" *ngIf="lastName.errors.required">
+                  ¡El apellido es requerido!
+              </div>
+              <div class="alert alert-danger" *ngIf="lastName.errors.pattern">
+                  Tu nombre debe contener únicamente letras
+              </div>
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="exampleFormControlInput1" class="letter-black">Dirección de email</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu correo electronico" formControlName="email">
+          <div  *ngIf="email.invalid && (email.dirty || email.touched)">
+              <div class="alert alert-danger" *ngIf="email.errors.required">
+                  ¡El email es requerdio!
+              </div>
+              <div class="alert alert-danger" *ngIf="email.errors.pattern">
+                  Debes introducir un email v@lido
+              </div>
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="exampleFormControlInput1" class="letter-black">Usuario de Github</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="User de Github" formControlName="GitHub">
+          <div  *ngIf="github.invalid && (github.dirty || github.touched)">
+              <div class="alert alert-danger" *ngIf="github.errors.required">
+                  !Tu usuario de github es requerido¡
+              </div>
+          </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" [disabled]="formUserUpdate.invalid" (click)="modalRef.hide()" (click)="updateUser(formUserUpdate.value)">Actualizar datos</button>
+    <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="cleanForm(2)">Limpiar Formularios</button>
+  </div>
+</ng-template>

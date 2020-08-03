@@ -1,0 +1,112 @@
+<form #userForm='ngForm'>
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Nombre</label>
+      <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu nombre" [(ngModel)]="nameuser" name="name" #names="ngModel" required>
+      <div [hidden]="names.valid || names.pristine" class="alert alert-danger">
+            !Nombre requerido¡
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Apellido</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu apellido" [(ngModel)]="lastname" name="lastName" #lastName="ngModel" required>
+        <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
+            !Apellido requerido¡
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Dirección de email</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Tu correo electronico" [(ngModel)]="emailuser" name="email" #email="ngModel" required>
+        <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+            ¡Email requerido!
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Usuario de Github</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="User de Github" [(ngModel)]="githubuser" name="GitHub" #GitHub="ngModel" required>
+        <div [hidden]="GitHub.valid || GitHub.pristine" class="alert alert-danger">
+            ¡Tu usuario de Github es reuquerido!
+      </div>
+    </div>
+    <button (click)="addUser(userForm.form.value)" [disabled]="userForm.form.invalid" class="btn btn-success right">Mostrar en tabla</button>
+    <button (click)="userForm.resetForm()" class="btn btn-warning">Limpiar formulario</button>
+</form>
+
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Github</th>
+        <th scope="col" class="col-center">Modificar/Eliminar</th>
+      </tr>
+    </thead>
+    <!-- Usa la propiedad users para recibir la informacion del api -->
+    <tbody *ngFor="let user of users" >
+      <tr>
+        <th scope="row">{{user.id}}</th>
+        <td>{{user.name}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.GitHub}}</td>
+        <td class="icons">
+          <span class="material-icons" id="icon-left" (click)="openModal(updateModal, user)">
+            create
+          </span>
+          <span class="material-icons" id="icon-right" (click)="deleteUser(user.id)">
+            delete_forever
+          </span>
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+
+<ng-template #updateModal>
+ 
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modificación de datos</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true" (click)="modalRef.hide()">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #userFormUpdate='ngForm'>
+      <div class="form-group" [hidden]="true">
+        <label for="exampleFormControlInput1">ID</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu nombre"  [(ngModel)]="idupdate" name="id" #id="ngModel">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1" class="letter-black">Nombre</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu nombre"  [(ngModel)]="nameuserupdate" name="name" #name="ngModel" required>
+        <div [hidden]="names.valid || names.pristine" class="alert alert-danger">
+              !Nombre requerido¡
+        </div>
+      </div>
+      <div class="form-group">
+          <label for="exampleFormControlInput1" class="letter-black">Apellido</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tu apellido" [(ngModel)]="lastnameuupdate" name="lastName" #lastName="ngModel" required>
+          <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
+              !Apellido requerido¡
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="exampleFormControlInput1" class="letter-black">Dirección de email</label>
+          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Tu correo electronico" [(ngModel)]="emailuserupdate" name="email"  #email="ngModel" required>
+          <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+              ¡Email requerido!
+        </div>
+      </div>
+      <div class="form-group">
+          <label for="exampleFormControlInput1" class="letter-black">Usuario de Github</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="User de Github" [(ngModel)]="githubuserupdate" name="GitHub" #GitHub="ngModel" required>
+          <div [hidden]="GitHub.valid || GitHub.pristine" class="alert alert-danger">
+              ¡Tu usuario de Github es reuquerido!
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" [disabled]="userFormUpdate.form.invalid" (click)="modalRef.hide()" (click)="updateUser(userFormUpdate.value)">Actualizar datos</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="userFormUpdate.resetForm()">Limpiar Formularios</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
